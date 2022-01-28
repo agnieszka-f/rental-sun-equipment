@@ -1,19 +1,40 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-import clsx from 'clsx';
-
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
+import {useStyles, StyledTextField} from '../Register/Register.theme.js';
 // import { connect } from 'react-redux';
 // import { reduxSelector, reduxActionCreator } from '../../../redux/exampleRedux.js';
 
-import styles from './Login.module.scss';
+const Component = ({className, children}) => { 
 
-const Component = ({className, children}) => (
-  <div className={clsx(className, styles.root)}>
-    <h2>Login</h2>
-    {children}
-  </div>
-);
+  const classes = useStyles();
+  const [fields, setFields] = React.useState({});
+  
+  const fieldChange = function(e){ 
+    setFields({...fields, [e.target.id]: e.target.value});
+  };
+  const handleSubmit = () => {  
+    console.log('click buttom submit');
+  };
+  return(
+    <div className={classes.root}>
+      <form onSubmit={()=>handleSubmit()}>
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <StyledTextField  onChange={(e) => fieldChange(e)} id="login" label="Login" variant="outlined" required fullWidth/>
+          </Grid>
+          <Grid item xs={12}>
+            <StyledTextField  onChange={(e) => fieldChange(e)} id="password" label="Hasło" variant="outlined" required fullWidth type="password"/>
+          </Grid>
+          <Grid item container xs={12} >
+            <Button className={classes.buttonSubmit} variant="contained" color="primary" type='submit' fullWidth>Zaloguj</Button>
+          </Grid>
+        </Grid>
+      </form>
+    </div>
+  );
+};
 
 Component.propTypes = {
   children: PropTypes.node,
@@ -32,6 +53,6 @@ Component.propTypes = {
 
 export {
   Component as Login,
-  // Container as Login,
+  // Container as Register,
   Component as LoginComponent,
 };
