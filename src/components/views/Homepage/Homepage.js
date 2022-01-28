@@ -1,20 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-import clsx from 'clsx';
+import { makeStyles } from '@material-ui/core/styles';
+import {MainButtons} from '../../common/MainButtons/MainButtons';
+//import clsx from 'clsx';
 
 // import { connect } from 'react-redux';
 // import { reduxSelector, reduxActionCreator } from '../../../redux/exampleRedux.js';
 
-import styles from './Homepage.module.scss';
+const useStyles = makeStyles((theme) => ({
+ 
+}));
 
-const Component = ({className, children}) => (
-  <div className={clsx(className, styles.root)}>
-    <h2>Homepage</h2>
-    {children}
-  </div>
-);
+const Component = () =>{ 
+  const classes = useStyles();
 
+  
+  
+  return (
+    <div >
+      <MainButtons />
+    </div>
+  );
+};
 Component.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
