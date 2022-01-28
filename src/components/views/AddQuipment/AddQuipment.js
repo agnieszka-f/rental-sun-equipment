@@ -50,9 +50,6 @@ const Component = ({className, children}) => {
           <Grid item xs={12}>
             <StyledTextField  onChange={(e) => fieldChange(e)} id="link" label="Link do zdjęcia" variant="outlined" required fullWidth/>
           </Grid>
-          <Grid item xs={12}>
-            <StyledTextField  onChange={(e) => fieldChange(e)} id="password" label="Hasło" variant="outlined" required fullWidth/>
-          </Grid>
           <Grid item xs={12} sm={6}>
             <StyledTextField  onChange={(e) => fieldChange(e)} id="price" label="Cena za 1 dzień" variant="outlined" required fullWidth />
           </Grid>

@@ -1,20 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-import clsx from 'clsx';
+import { makeStyles } from '@material-ui/core/styles';
+import {OptionButtons} from '../../common/OptionButtons/OptionButtons';
 
 // import { connect } from 'react-redux';
 // import { reduxSelector, reduxActionCreator } from '../../../redux/exampleRedux.js';
 
-import styles from './Rent.module.scss';
+const useStyles = makeStyles((theme) => ({
+ 
+}));
 
-const Component = ({className, children}) => (
-  <div className={clsx(className, styles.root)}>
-    <h2>Rent</h2>
-    {children}
-  </div>
-);
-
+const Component = ({className, children}) => { 
+  const classes = useStyles();
+  return(
+    <div >
+      <OptionButtons />
+    </div>
+  );
+};
+  
 Component.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
