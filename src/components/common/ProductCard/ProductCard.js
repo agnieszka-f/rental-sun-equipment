@@ -55,7 +55,7 @@ const Component = ({product}) => {
           </Box>  
           <Button className={classes.buttonSubmit} variant="contained" color="primary" fullWidth>Wybierz</Button> 
           <Box mt={2}> 
-            <Typography variant="caption">Dostępna ilosć: {product.amount}</Typography>
+            <Typography variant="caption">Dostępna ilość: {product.amount}</Typography>
           </Box>           
         </CardContent>
       </Card>

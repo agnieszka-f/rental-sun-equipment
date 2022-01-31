@@ -14,6 +14,7 @@ import { Contact } from './components/views/Contact/Contact';
 import { Login } from './components/views/Login/Login';
 import { Register } from './components/views/Register/Register';
 import { Rent } from './components/views/Rent/Rent';
+import { RentConfirm } from './components/views/RentConfirm/RentConfirm';
 import { Return } from './components/views/Return/Return';
 import { NotFound } from './components/views/NotFound/NotFound';
 
@@ -37,6 +38,7 @@ const App = () => (
               <Route exact path='/login' component={Login} />
               <Route exact path='/register' component={Register} />
               <Route exact path='/rent' component={Rent} />
+              <Route exact path='/rent-confirm' component={RentConfirm} />
               <Route exact path='/return' component={Return} />
               <Route path='*' component={NotFound} />
             </Switch>
