@@ -13,7 +13,6 @@ const useStyles = makeStyles((theme) => ({
     background: 'beige',
     width: '100%',
     height: '100%',
-    //borderBottom: '1px solid #ffc107',
     padding: theme.spacing(2),
     margin: '4px 0',
     boxShadow: '1px 1px silver',
@@ -29,19 +28,6 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '0.8rem',
     fontWeight: 600,
     textAlign: 'center',
-  },
-  input:{
-    height: 30,
-    width: 40,
-    textAlign:'center',
-    border: '1px solid black',
-    borderRadius: 4,
-  },
-  button:{
-    color: 'black',
-    '&:hover':{
-      backgroundColor:'beige',
-    },
   },
 }));
 
