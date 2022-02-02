@@ -29,6 +29,12 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 600,
     textAlign: 'center',
   },
+  buttonReturn:{
+    transition: 'all 1s',
+    '&:hover':{
+      background: 'yellow',
+    },
+  },
 }));
 
 const Component = ({item}) => { 
@@ -47,8 +53,8 @@ const Component = ({item}) => {
         <Typography className={classes.fontItem}>Wartość</Typography>
         <Typography className={classes.fontItem}>200 zł</Typography>
       </Grid>
-      <Grid item xs={3} justify="flex-end" alignItems="center">
-        <Button variant="contained" color="primary" type='submit' fullWidth>Zwrot</Button>
+      <Grid item xs={3} justify="flex-end" alignItems="center" container>
+        <Button className={classes.buttonReturn} variant="contained" color="primary" type='submit' fullWidth>Zwrot</Button>
       </Grid>
     </Grid>
   );

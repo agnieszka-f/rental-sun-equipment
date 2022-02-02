@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Component = ({className, children}) => { 
+const Component = () => { 
   const classes = useStyles();
   return(
     <div className={classes.root }>
