@@ -5,8 +5,9 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import {RentItem} from '../../common/RentItem/RentItem';
 import Button from '@material-ui/core/Button';
-// import { connect } from 'react-redux';
-// import { reduxSelector, reduxActionCreator } from '../../../redux/exampleRedux.js';
+import {NoPermission} from '../NoPermission/NoPermission';
+import { connect } from 'react-redux';
+import { getStatus } from '../../../redux/statusUsersRedux.js';
 
 const useStyles = makeStyles((theme) => ({
   root:{
@@ -32,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Component = () => { 
+const Component = ({status}) => { 
   const classes = useStyles();
 
   const cart = [{id:1, type:'towel',name:'Duży ręcznik',photo:'https://pieknesny.pl/userdata/public/gfx/4007/31.jpg',price:20,amount:50},
@@ -40,9 +41,9 @@ const Component = () => {
     {id:3, type:'umbrella',name:'Parasol kolorowy',photo:'https://www.abud.pl/pol_pl_Parasol-plazowy-170-cm-37533_2.jpg',price:15,amount:80},
     {id:4, type:'screen',name:'Parawan kolorowy',photo:'https://www.wystawienniczesystemy.com.pl/1633-medium_default/parawan.jpg',price:25,amount:40},
   ];
-  console.log(cart.length);
+  
   return(
-    cart && cart.length > 0 ? 
+    status === 'user' && cart && cart.length > 0 ? 
       <Grid className={classes.root} container >
         <Typography variant="h6">Wypożyczone produkty</Typography>
         {
@@ -56,26 +57,27 @@ const Component = () => {
           <Button className={classes.buttonSubmit} variant="contained" color="primary" type='submit' fullWidth>Anuluj</Button>
         </Grid>
       </Grid>
-      : <Typography variant="h2">Nie masz wypożyczonych żadnych produktów</Typography>
+      : <NoPermission />
   );
 };
 Component.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
+  status:PropTypes.string,
 };
 
-// const mapStateToProps = state => ({
-//   someProp: reduxSelector(state),
-// });
+const mapStateToProps = state => ({
+  status: getStatus(state),
+});
 
 // const mapDispatchToProps = dispatch => ({
 //   someAction: arg => dispatch(reduxActionCreator(arg)),
 // });
 
-// const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
+const Container = connect(mapStateToProps/*, mapDispatchToProps*/)(Component);
 
 export {
-  Component as Return,
-  // Container as Return,
+  //Component as Return,
+  Container as Return,
   Component as ReturnComponent,
 };

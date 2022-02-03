@@ -3,12 +3,11 @@ import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import {useStyles, StyledTextField} from '../Form.theme.js';
-// import { connect } from 'react-redux';
-// import { reduxSelector, reduxActionCreator } from '../../../redux/exampleRedux.js';
+import { connect } from 'react-redux';
+import { getStatus } from '../../../redux/statusUsersRedux.js';
+import {NoPermission} from '../NoPermission/NoPermission';
 
-
-
-const Component = ({className, children}) => { 
+const Component = ({status}) => { 
 
   const classes = useStyles();
   const [fields, setFields] = React.useState({});
@@ -19,8 +18,9 @@ const Component = ({className, children}) => {
   const handleSubmit = () => {  
     console.log('click buttom submit');
   };
+
   return(
-    <div className={classes.root}>
+    status === 'Zaloguj jako' ? <div className={classes.root}>
       <form onSubmit={()=>handleSubmit()}>
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6}>
@@ -43,27 +43,23 @@ const Component = ({className, children}) => {
           </Grid>
         </Grid>
       </form>
-    </div>
+    </div>:<NoPermission />
   );
 };
 
 Component.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
+  status:PropTypes.string,
 };
 
-// const mapStateToProps = state => ({
-//   someProp: reduxSelector(state),
-// });
+const mapStateToProps = state => ({
+  status: getStatus(state),
+});
 
-// const mapDispatchToProps = dispatch => ({
-//   someAction: arg => dispatch(reduxActionCreator(arg)),
-// });
-
-// const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
+const Container = connect(mapStateToProps)(Component);
 
 export {
-  Component as Register,
-  // Container as Register,
+  Container as Register,
   Component as RegisterComponent,
 };

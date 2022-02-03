@@ -5,10 +5,11 @@ import Button from '@material-ui/core/Button';
 import {useStyles, StyledTextField, BootstrapInput} from '../Form.theme.js';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
-// import { connect } from 'react-redux';
-// import { reduxSelector, reduxActionCreator } from '../../../redux/exampleRedux.js';
+import {NoPermission} from '../NoPermission/NoPermission';
+import { connect } from 'react-redux';
+import { getStatus } from '../../../redux/statusUsersRedux.js';
 
-const Component = ({className, children}) => { 
+const Component = ({status}) => { 
 
   const classes = useStyles();
   const [fields, setFields] = React.useState({});
@@ -24,7 +25,7 @@ const Component = ({className, children}) => {
     console.log('click buttom submit');
   };
   return(
-    <div className={classes.root}>
+    status === 'admin' ? <div className={classes.root}>
       <form onSubmit={()=>handleSubmit()}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
@@ -61,27 +62,28 @@ const Component = ({className, children}) => {
           </Grid>
         </Grid>
       </form>
-    </div>
+    </div> : <NoPermission />
   );
 };
 
 Component.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
+  status:PropTypes.string,
 };
 
-// const mapStateToProps = state => ({
-//   someProp: reduxSelector(state),
-// });
+const mapStateToProps = state => ({
+  status: getStatus(state),
+});
 
 // const mapDispatchToProps = dispatch => ({
 //   someAction: arg => dispatch(reduxActionCreator(arg)),
 // });
 
-// const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
+const Container = connect(mapStateToProps/*, mapDispatchToProps*/)(Component);
 
 export {
-  Component as AddQuipment,
-  // Container as AddQuipment,
+  //Component as AddQuipment,
+  Container as AddQuipment,
   Component as AddQuipmentComponent,
 };
