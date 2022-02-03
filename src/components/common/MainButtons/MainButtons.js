@@ -12,7 +12,7 @@ import ContactMailIcon from '@material-ui/icons/ContactMail';
 import {Link} from 'react-router-dom';
 
 import { connect } from 'react-redux';
-import { fetchUsersStatus, getStatus } from '../../../redux/statusUsersRedux.js';
+import { /*fetchUsersStatus,*/ getStatus } from '../../../redux/statusUsersRedux.js';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -95,16 +95,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Component = ({fetchUsersStatus, status}) =>{ 
+const Component = ({/*fetchUsersStatus,*/ status}) =>{ 
   const classes = useStyles();
   
-  React.useEffect(() => {
-    const getResult = async () =>{
-      await fetchUsersStatus();
-    };
-    getResult();
-  }, [fetchUsersStatus]);
-   
   return ( 
     <div className={classes.root}>
       { status === 'Zaloguj jako' || !status ? 
@@ -142,7 +135,7 @@ const Component = ({fetchUsersStatus, status}) =>{
 Component.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
-  fetchUsersStatus: PropTypes.func,
+  //fetchUsersStatus: PropTypes.func,
   status:PropTypes.string,
 };
 
@@ -150,11 +143,11 @@ const mapStateToProps = state => ({
   status: getStatus(state),
 });
 
-const mapDispatchToProps = dispatch => ({
+/*const mapDispatchToProps = dispatch => ({
   fetchUsersStatus: () => dispatch(fetchUsersStatus()),
-});
+});*/
 
-const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
+const Container = connect(mapStateToProps/*, mapDispatchToProps*/)(Component);
 
 export {
   Container as MainButtons,
