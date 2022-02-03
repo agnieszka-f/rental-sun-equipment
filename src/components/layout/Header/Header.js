@@ -8,10 +8,12 @@ import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+import {Link} from 'react-router-dom';
+import { useHistory } from 'react-router';
 //import {OptionButtons} from '../../common/OptionButtons/OptionButtons';
 
-// import { connect } from 'react-redux';
-// import { reduxSelector, reduxActionCreator } from '../../../redux/exampleRedux.js';
+import { connect } from 'react-redux';
+import { getStatus, updateStatus } from '../../../redux/statusUsersRedux.js';
 
 const useStyles = makeStyles((theme) => ({
   appbar: {
@@ -27,11 +29,12 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
 }));
-const Component = () =>{ 
+const Component = ({status, updateStatus}) =>{ 
   const classes = useStyles();
+  
+  const [anchorEl, setAnchorEl] = React.useState(null); 
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [value, setValue] = React.useState(JSON.parse(localStorage.getItem('login')) === null ? 'Zaloguj jako': JSON.parse(localStorage.getItem('login')));
+  const history = useHistory();
 
   const handleClick = (event) => {  
     setAnchorEl(event.currentTarget);
@@ -39,27 +42,32 @@ const Component = () =>{
 
   const handleClose = (event) => {
     setAnchorEl(null);
-    if(event.currentTarget.getAttribute('value') !== null) setValue(event.currentTarget.getAttribute('value'));
+    if(event.currentTarget.getAttribute('value') !== null) {
+      updateStatus(event.currentTarget.getAttribute('value')); 
+      history.replace('/');
+    }
   };
  
   React.useEffect(()=>{
-    localStorage.setItem('login',JSON.stringify(value));
+    localStorage.setItem('login',JSON.stringify(status));
+    updateStatus(status);
   });
 
   const handleChangeValue = () => {
-    setValue('Zaloguj jako');
+    updateStatus('Zaloguj jako');
+    history.replace('/');
   };
 
-  return (
+  return ( 
     <AppBar position="static" className={classes.appbar}>
       <Toolbar className={classes.toolbar}>
-        <Button color="inherit">
+        <Button color="inherit" component={Link} to={'/'}>
             Home
         </Button>
         <Box className={classes.login}> 
-          <div>
+          <div >
             <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-              { value !== 'Zaloguj jako' ? 'Zalogowano jako: ' + value : 'Zaloguj jako'}
+              { status !== 'Zaloguj jako' ? 'Zalogowano jako: ' + status : 'Zaloguj jako'}
             </Button>
             <Menu
               id="simple-menu"
@@ -68,10 +76,10 @@ const Component = () =>{
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-              <MenuItem value={'admin'} onClick={handleClose}>Administrator</MenuItem>
-              <MenuItem value={'user'} onClick={handleClose}>Użytkownik</MenuItem>
+              <MenuItem value={'admin'} onClick={handleClose} >Administrator</MenuItem>
+              <MenuItem value={'user'} onClick={handleClose} >Użytkownik</MenuItem>
             </Menu>
-            { value !== 'Zaloguj jako' ? <Button onClick={handleChangeValue}>Wyloguj</Button> : ''}
+            { status !== 'Zaloguj jako' ? <Button onClick={handleChangeValue} >Wyloguj</Button> : ''}
           </div>
         </Box>
       </Toolbar>
@@ -82,20 +90,23 @@ const Component = () =>{
 Component.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
+  status: PropTypes.string,
+  updateStatus: PropTypes.func,
+  
 };
 
-// const mapStateToProps = state => ({
-//   someProp: reduxSelector(state),
-// });
+const mapStateToProps = state => ({
+  status: getStatus(state),
+});
 
-// const mapDispatchToProps = dispatch => ({
-//   someAction: arg => dispatch(reduxActionCreator(arg)),
-// });
+const mapDispatchToProps = dispatch => ({
+  updateStatus: arg => dispatch(updateStatus(arg)),
+});
 
-// const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
+const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
 
 export {
-  Component as Header,
-  // Container as Header,
+  //Component as Header,
+  Container as Header,
   Component as HeaderComponent,
 };

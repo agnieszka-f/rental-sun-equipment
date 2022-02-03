@@ -9,9 +9,10 @@ import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
 import VerticalAlignBottomIcon from '@material-ui/icons/VerticalAlignBottom';
 import VerticalAlignTopIcon from '@material-ui/icons/VerticalAlignTop';
 import ContactMailIcon from '@material-ui/icons/ContactMail';
+import {Link} from 'react-router-dom';
 
-// import { connect } from 'react-redux';
-// import { reduxSelector, reduxActionCreator } from '../../../redux/exampleRedux.js';
+import { connect } from 'react-redux';
+import { fetchUsersStatus, getStatus } from '../../../redux/statusUsersRedux.js';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,6 +27,12 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     textAlign: 'center',
     fontWeight:'600',
+    cursor: 'pointer',
+    transition: 'all 1s',
+    '&:hover':{
+      opacity: 0.8,
+    },
+    textDecoration: 'none',
   },
   yellow:{
     background: 'rgb(255, 247, 205)',
@@ -88,39 +95,44 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Component = () =>{ 
+const Component = ({fetchUsersStatus, status}) =>{ 
   const classes = useStyles();
-
-  const status ={login: true, admin: false, rent: true};
   
-  return (
+  React.useEffect(() => {
+    const getResult = async () =>{
+      await fetchUsersStatus();
+    };
+    getResult();
+  }, [fetchUsersStatus]);
+   
+  return ( 
     <div className={classes.root}>
-      { status.login === false ? 
-        <Paper className={`${classes.item} + ${classes.yellow}`}>
+      { status === 'Zaloguj jako' || !status ? 
+        <Paper className={`${classes.item} + ${classes.yellow}`} component={Link} to={'/register'}>
           <Box className={`${classes.icon} + ${classes.iconYellow}`}><VpnLockIcon /></Box>
               Rejestracja
         </Paper> : '' }
-      {status.login === false ?
-        <Paper className={`${classes.item} + ${classes.red}`}>
+      {status === 'Zaloguj jako' || !status ? 
+        <Paper className={`${classes.item} + ${classes.red}`} component={Link} to={'/login'}>
           <Box className={`${classes.icon} + ${classes.iconRed}`}><VpnKeyIcon /></Box>
               Logowanie
         </Paper> : '' }
-      { status.admin === true ?
-        <Paper className={`${classes.item} + ${classes.pink}`}>
+      { status && status === 'admin' ?
+        <Paper className={`${classes.item} + ${classes.pink}`} component={Link} to={'/add-quipment'}>
           <Box className={`${classes.icon} + ${classes.iconPink}`}><PlaylistAddIcon /></Box>
               Nowy sprzet
         </Paper> : '' }
-      { status.login === true && status.admin === false ?
-        <Paper className={`${classes.item} + ${classes.green}`}>
+      { status && status === 'user' ?
+        <Paper className={`${classes.item} + ${classes.green}`} component={Link} to={'/rent'}>
           <Box className={`${classes.icon} + ${classes.iconGreen}`}><VerticalAlignBottomIcon /></Box>
               Wypożycz sprzęt
         </Paper> : '' }
-      { status.login === true && status.admin === false && status.rent === true ?
-        <Paper className={`${classes.item} + ${classes.blue}`}>
+      { status && status === 'user' ?
+        <Paper className={`${classes.item} + ${classes.blue}`} component={Link} to={'/return'}>
           <Box className={`${classes.icon} + ${classes.iconBlue}`}><VerticalAlignTopIcon /></Box>
               Zwróć sprzęt
         </Paper> : '' }
-      <Paper className={`${classes.item} + ${classes.white}`}>
+      <Paper className={`${classes.item} + ${classes.white}`} component={Link} to={'/contact'}>
         <Box className={`${classes.icon} + ${classes.iconWhite}`}><ContactMailIcon /></Box>
               Kontakt
       </Paper>
@@ -130,20 +142,21 @@ const Component = () =>{
 Component.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
+  fetchUsersStatus: PropTypes.func,
+  status:PropTypes.string,
 };
 
-// const mapStateToProps = state => ({
-//   someProp: reduxSelector(state),
-// });
+const mapStateToProps = state => ({
+  status: getStatus(state),
+});
 
-// const mapDispatchToProps = dispatch => ({
-//   someAction: arg => dispatch(reduxActionCreator(arg)),
-// });
+const mapDispatchToProps = dispatch => ({
+  fetchUsersStatus: () => dispatch(fetchUsersStatus()),
+});
 
-// const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
+const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
 
 export {
-  Component as MainButtons,
-  // Container as Homepage,
+  Container as MainButtons,
   Component as MainButtonsComponent,
 };
