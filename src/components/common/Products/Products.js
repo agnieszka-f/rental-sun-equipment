@@ -12,7 +12,7 @@ import Button from '@material-ui/core/Button';
 const useStyles = makeStyles((theme) => ({
   buttonSubmit:{
     display:'block',
-    margin: '0 auto 20px auto',
+    margin: '20px auto 20px auto',
     width: 200,
     transition: 'all 1s',
     '&:hover':{
@@ -39,6 +39,7 @@ const Component = ({className, children}) => {
           products && products.length > 0 ? products.map(product => <Grid item key={product.id}><ProductCard product={product} rentProduct={rentProduct}/></Grid>):''
         }
       </Grid>
+      {cart.length > 0 ? <Button className={classes.buttonSubmit} variant="contained" color="primary" fullWidth>Podsumowanie</Button> : ''}
     </div>
   );
 };
