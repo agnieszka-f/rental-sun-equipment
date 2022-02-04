@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 const Component = ({status, updateStatus}) =>{ 
   const classes = useStyles();
-  
+
   const [anchorEl, setAnchorEl] = React.useState(null); 
 
   const history = useHistory();
@@ -49,9 +49,8 @@ const Component = ({status, updateStatus}) =>{
  
   React.useEffect(()=>{
     localStorage.setItem('login',JSON.stringify(status));
-    updateStatus(status);
   });
-
+ 
   const handleChangeValue = () => {
     updateStatus('Zaloguj jako');
     history.replace('/');

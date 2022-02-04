@@ -11,11 +11,11 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-const Component = ({status}) => { 
+const Component = ({status,equipments}) => { 
   const classes = useStyles(); 
- 
+  
   return(
-    status === 'user' ? <Products/> : <NoPermission />
+    status === 'user' ? <Products /> : <NoPermission />
   );
 };
   
@@ -23,6 +23,7 @@ Component.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
   status:PropTypes.string,
+  equipments: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
 };
 
 const mapStateToProps = state => ({

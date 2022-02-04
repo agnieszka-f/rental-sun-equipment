@@ -67,6 +67,7 @@ Component.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
   product: PropTypes.object,
+  rentProduct: PropTypes.func,
 };
 
 // const mapStateToProps = state => ({

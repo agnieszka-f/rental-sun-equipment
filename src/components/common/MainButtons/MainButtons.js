@@ -12,7 +12,8 @@ import ContactMailIcon from '@material-ui/icons/ContactMail';
 import {Link} from 'react-router-dom';
 
 import { connect } from 'react-redux';
-import { /*fetchUsersStatus,*/ getStatus } from '../../../redux/statusUsersRedux.js';
+import { getStatus } from '../../../redux/statusUsersRedux.js';
+import { fetchFromApi, getEquipments } from '../../../redux/equipmentsRedux.js';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -95,9 +96,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Component = ({/*fetchUsersStatus,*/ status}) =>{ 
+const Component = ({fetchFromApi, status, equipments}) =>{ 
   const classes = useStyles();
   
+  React.useEffect(() => {
+    const getResult = async () =>{
+      await fetchFromApi();
+    };
+    getResult();
+  }, [fetchFromApi]);
+
   return ( 
     <div className={classes.root}>
       { status === 'Zaloguj jako' || !status ? 
@@ -111,7 +119,7 @@ const Component = ({/*fetchUsersStatus,*/ status}) =>{
               Logowanie
         </Paper> : '' }
       { status && status === 'admin' ?
-        <Paper className={`${classes.item} + ${classes.pink}`} component={Link} to={'/add-quipment'}>
+        <Paper className={`${classes.item} + ${classes.pink}`} component={Link} to={'/add-equipment'}>
           <Box className={`${classes.icon} + ${classes.iconPink}`}><PlaylistAddIcon /></Box>
               Nowy sprzet
         </Paper> : '' }
@@ -135,19 +143,21 @@ const Component = ({/*fetchUsersStatus,*/ status}) =>{
 Component.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
-  //fetchUsersStatus: PropTypes.func,
   status:PropTypes.string,
+  fetchFromApi: PropTypes.func,
+  equipments: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
 };
 
 const mapStateToProps = state => ({
   status: getStatus(state),
+  equipments: getEquipments(state),
 });
 
-/*const mapDispatchToProps = dispatch => ({
-  fetchUsersStatus: () => dispatch(fetchUsersStatus()),
-});*/
+const mapDispatchToProps = dispatch => ({
+  fetchFromApi: () => dispatch(fetchFromApi()),
+});
 
-const Container = connect(mapStateToProps/*, mapDispatchToProps*/)(Component);
+const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
 
 export {
   Container as MainButtons,

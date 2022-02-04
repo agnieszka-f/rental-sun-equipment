@@ -8,21 +8,30 @@ import Select from '@material-ui/core/Select';
 import {NoPermission} from '../NoPermission/NoPermission';
 import { connect } from 'react-redux';
 import { getStatus } from '../../../redux/statusUsersRedux.js';
+import {getEquipments } from '../../../redux/equipmentsRedux.js';
+import {Link} from 'react-router-dom';
 
-const Component = ({status}) => { 
+const Component = ({status, equipments}) => { 
 
   const classes = useStyles();
+ 
+  React.useEffect(()=>{
+    const eq = JSON.parse(localStorage.getItem('equipments'));
+    localStorage.setItem('equipments',JSON.stringify(eq && eq.length > 0 ? eq:(equipments && equipments.length > 0 ? equipments : [])));
+  });
+
   const [fields, setFields] = React.useState({});
   const [option, setOption] = React.useState('typ');
-
+  
   const fieldChange = function(e){ 
     setFields({...fields, [e.target.id]: e.target.value});
   };
   const handleChangeOption = (event) => {
     setOption(event.target.value);
   };
-  const handleSubmit = () => {  
-    console.log('click buttom submit');
+  const handleSubmit = (e) => {  
+    //e.preventDefault();
+    localStorage.setItem('equipments',JSON.stringify([...equipments, {id: equipments.length + 1, ...fields}]));
   };
   return(
     status === 'admin' ? <div className={classes.root}>
@@ -58,7 +67,7 @@ const Component = ({status}) => {
             <StyledTextField  onChange={(e) => fieldChange(e)} id="amount" label="Ilość" variant="outlined" required fullWidth />
           </Grid>
           <Grid item container xs={12} >
-            <Button className={classes.buttonSubmit} variant="contained" color="primary" type='submit' fullWidth>Dodaj</Button>
+            <Button className={classes.buttonSubmit} onClick={(e)=>handleSubmit(e)} component={Link} to={'/'} variant="contained" color="primary" type='submit' fullWidth>Dodaj</Button>
           </Grid>
         </Grid>
       </form>
@@ -70,10 +79,12 @@ Component.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
   status:PropTypes.string,
+  equipments: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
 };
 
 const mapStateToProps = state => ({
   status: getStatus(state),
+  equipments: getEquipments(state),
 });
 
 // const mapDispatchToProps = dispatch => ({
