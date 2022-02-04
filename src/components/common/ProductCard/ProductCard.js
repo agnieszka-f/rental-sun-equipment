@@ -36,8 +36,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Component = ({product}) => { 
+const Component = ({product, rentProduct}) => { 
   const classes = useStyles();
+  
+  const [hidden, setHidden] = React.useState(false);
+
+  const handleRentProduct = (id) =>{
+    setHidden(true);
+    rentProduct(id);
+  };
 
   return(
     <Grid item xs={12} sm={6} md={3}>
@@ -46,14 +53,13 @@ const Component = ({product}) => {
           className={classes.media}
           image={product.photo}
           title={product.name}
-          //component={Link} to={'/product/' + product.id}
         > </CardMedia>
         <CardContent className={classes.content} >
           <Typography variant="h6">{product.name}</Typography>
           <Box my={3}> 
             <Typography variant="subtitle2">{product.price} zł/dzień</Typography>
           </Box>  
-          <Button className={classes.buttonSubmit} variant="contained" color="primary" fullWidth>Wybierz</Button> 
+          <Button className={classes.buttonSubmit} onClick={()=>handleRentProduct(product.id)} disabled={hidden} variant="contained" color="primary" fullWidth>Wybierz</Button> 
           <Box mt={2}> 
             <Typography variant="caption">Dostępna ilość: {product.amount}</Typography>
           </Box>           

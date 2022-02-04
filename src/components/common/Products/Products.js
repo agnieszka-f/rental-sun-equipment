@@ -4,30 +4,42 @@ import { makeStyles } from '@material-ui/core/styles';
 import {OptionButtons} from '../../common/OptionButtons/OptionButtons';
 import {ProductCard} from '../../common/ProductCard/ProductCard';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 
 // import { connect } from 'react-redux';
 // import { reduxSelector, reduxActionCreator } from '../../../redux/exampleRedux.js';
 
 const useStyles = makeStyles((theme) => ({
-
+  buttonSubmit:{
+    display:'block',
+    margin: '0 auto 20px auto',
+    width: 200,
+    transition: 'all 1s',
+    '&:hover':{
+      background: 'yellow',
+    },
+  },
 }));
 
 const Component = ({className, children}) => { 
   const classes = useStyles(); 
 
-  /*const products = [{id:1, type:'towel',name:'Duży ręcznik',photo:'https://pieknesny.pl/userdata/public/gfx/4007/31.jpg',price:20,amount:50},
-    {id:2, type:'sunbed',name:'Leżak niebieski',photo:'https://odjazdowemeble.pl/images/odjazdowemeble/0-1000/Lezak-plazowy-ogrodowy_%5B785%5D_1200.jpg',price:40,amount:10},
-    {id:3, type:'umbrella',name:'Parasol kolorowy',photo:'https://www.abud.pl/pol_pl_Parasol-plazowy-170-cm-37533_2.jpg',price:15,amount:80},
-    {id:4, type:'screen',name:'Parawan kolorowy',photo:'https://www.wystawienniczesystemy.com.pl/1633-medium_default/parawan.jpg',price:25,amount:40},
-  ];*/
   const [products] = React.useState(JSON.parse(localStorage.getItem('equipments')));
-  
+  const [cart, setCart] = React.useState([]);
+
+  const rentProduct = (id) =>{
+    setCart([...cart, id]);
+  };
+
   return(
-    <Grid container spacing={2} justify='center'>
-      {
-        products && products.length > 0 ? products.map(product => <Grid item key={product.id}><ProductCard product={product}/></Grid>):''
-      }
-    </Grid>
+    <div>
+      {cart.length > 0 ? <Button className={classes.buttonSubmit} variant="contained" color="primary" fullWidth>Podsumowanie</Button> : ''}
+      <Grid container spacing={2} justify='center'>
+        {
+          products && products.length > 0 ? products.map(product => <Grid item key={product.id}><ProductCard product={product} rentProduct={rentProduct}/></Grid>):''
+        }
+      </Grid>
+    </div>
   );
 };
   
