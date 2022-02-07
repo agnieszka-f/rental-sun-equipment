@@ -49,7 +49,22 @@ const useStyles = makeStyles((theme) => ({
 
 const Component = ({item}) => { 
   const classes = useStyles();
+  
+  const [value,setValue] = React.useState(1);
 
+  const decreease = () =>{
+    if(value > 1) setValue(value - 1); 
+  };
+
+  const increease = () => {
+    if(value < item.amount) setValue(value + 1);
+  };
+
+  const handleChange = (e) =>{ 
+    const newValue = parseInt(e.target.value);
+    if(newValue > 1 && newValue < item.amount) setValue(newValue);
+  };
+  
   return(
     <Grid item container justify="space-between" alignItems="center" className={classes.container}>
       <Grid item xs={2}  alignItems="center" container>
@@ -60,9 +75,9 @@ const Component = ({item}) => {
         <Typography className={classes.fontItem}>{item.price} zł/dzień</Typography>
       </Grid>
       <Grid item xs={4}  justify="center" alignItems="center" container>
-        <IconButton className={classes.button}><RemoveIcon /></IconButton>
-        <input className={classes.input}></input>
-        <IconButton className={classes.button}><AddIcon /></IconButton>
+        <IconButton className={classes.button} onClick={decreease}><RemoveIcon /></IconButton>
+        <input value={value} className={classes.input} onChange={(e)=>handleChange(e)}></input>
+        <IconButton className={classes.button} onClick={increease}><AddIcon /></IconButton>
       </Grid>
       <Grid item justify="center" alignItems="center" xs={3} direction="column" container>
         <Typography className={classes.fontItem}>Wartość</Typography>

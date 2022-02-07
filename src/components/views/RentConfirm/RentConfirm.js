@@ -34,13 +34,9 @@ const useStyles = makeStyles((theme) => ({
 
 const Component = () => { 
   const classes = useStyles();
-
-  const cart = [{id:1, type:'towel',name:'Duży ręcznik',photo:'https://pieknesny.pl/userdata/public/gfx/4007/31.jpg',price:20,amount:50},
-    {id:2, type:'sunbed',name:'Leżak niebieski',photo:'https://odjazdowemeble.pl/images/odjazdowemeble/0-1000/Lezak-plazowy-ogrodowy_%5B785%5D_1200.jpg',price:40,amount:10},
-    {id:3, type:'umbrella',name:'Parasol kolorowy',photo:'https://www.abud.pl/pol_pl_Parasol-plazowy-170-cm-37533_2.jpg',price:15,amount:80},
-    {id:4, type:'screen',name:'Parawan kolorowy',photo:'https://www.wystawienniczesystemy.com.pl/1633-medium_default/parawan.jpg',price:25,amount:40},
-  ];
-  console.log(cart.length);
+  
+  const [cart, setCart] = React.useState(JSON.parse(localStorage.getItem('cart'))!==null ? JSON.parse(localStorage.getItem('cart')) : []);
+ 
   return(
     cart && cart.length > 0 ? 
       <Grid className={classes.root} container >
