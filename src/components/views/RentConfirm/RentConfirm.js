@@ -36,13 +36,22 @@ const Component = () => {
   const classes = useStyles();
   
   const [cart, setCart] = React.useState(JSON.parse(localStorage.getItem('cart'))!==null ? JSON.parse(localStorage.getItem('cart')) : []);
- 
+  const [arrHidden, setArrHidden] = React.useState(JSON.parse(localStorage.getItem('arrHidden'))!==null ? JSON.parse(localStorage.getItem('arrHidden')) : []);
+
+  const handleDeleteItem = (id) => { 
+    setCart(cart.filter( item => item.id !== id)); 
+    setArrHidden(arrHidden.filter( item => item !== id)); 
+  };
+  
+  React.useEffect(()=>localStorage.setItem('cart',JSON.stringify(cart)), [cart]);
+  React.useEffect(()=>localStorage.setItem('arrHidden',JSON.stringify(arrHidden)), [arrHidden]);
+
   return(
     cart && cart.length > 0 ? 
       <Grid className={classes.root} container >
         <Typography variant="h6">Zamówione produkty</Typography>
         {
-          cart.map( item => <RentConfirmItem key={item.id} item={item}/>)
+          cart.map( item => <RentConfirmItem key={item.id} item={item} deleteItem={handleDeleteItem}/>)
         }
         <Grid item container justify="flex-end">
           <Grid item container justify="flex-end" className={classes.confirm}>

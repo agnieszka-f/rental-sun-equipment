@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Component = ({item}) => { 
+const Component = ({item, deleteItem}) => { 
   const classes = useStyles();
   
   const [value,setValue] = React.useState(1);
@@ -84,7 +84,7 @@ const Component = ({item}) => {
         <Typography className={classes.fontItem}>200 zł</Typography>
       </Grid>
       <Grid item xs={1} justify="flex-end" alignItems="center" container>
-        <IconButton className={classes.button}><DeleteIcon /></IconButton>
+        <IconButton className={classes.button} onClick={() => deleteItem(item.id)}><DeleteIcon /></IconButton>
       </Grid>
     </Grid>
   );
@@ -93,6 +93,7 @@ Component.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
   item: PropTypes.object,
+  deleteItem: PropTypes.func,
 };
 
 // const mapStateToProps = state => ({
