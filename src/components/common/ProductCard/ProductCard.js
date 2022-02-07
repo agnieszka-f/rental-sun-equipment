@@ -39,11 +39,11 @@ const useStyles = makeStyles((theme) => ({
 const Component = ({product, rentProduct}) => { 
   const classes = useStyles();
   
-  const [hidden, setHidden] = React.useState(false);
+  const arrHidden= JSON.parse(localStorage.getItem('arrHidden')) !==null ? JSON.parse(localStorage.getItem('arrHidden')) : [];
 
-  const handleRentProduct = (id) =>{
-    setHidden(true);
-    rentProduct(id);
+  const handleRentProduct = (product) =>{
+    localStorage.setItem('arrHidden',JSON.stringify([...arrHidden, product.id]));
+    rentProduct(product);
   };
 
   return(
@@ -59,7 +59,7 @@ const Component = ({product, rentProduct}) => {
           <Box my={3}> 
             <Typography variant="subtitle2">{product.price} zł/dzień</Typography>
           </Box>  
-          <Button className={classes.buttonSubmit} onClick={()=>handleRentProduct(product)} disabled={hidden} variant="contained" color="primary" fullWidth>Wybierz</Button> 
+          <Button className={classes.buttonSubmit} onClick={()=>handleRentProduct(product)} disabled={arrHidden.includes(product.id)} variant="contained" color="primary" fullWidth>Wybierz</Button> 
           <Box mt={2}> 
             <Typography variant="caption">Dostępna ilość: {product.amount}</Typography>
           </Box>           

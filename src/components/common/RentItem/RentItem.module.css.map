@@ -1,0 +1,10 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "RentItem.module.scss",
+        "../../../styles/settings.scss"
+    ],
+    "names": [],
+    "file": "RentItem.module.css"
+}

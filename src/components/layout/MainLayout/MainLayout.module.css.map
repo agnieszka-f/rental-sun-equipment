@@ -1,0 +1,10 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "MainLayout.module.scss",
+        "../../../styles/settings.scss"
+    ],
+    "names": [],
+    "file": "MainLayout.module.css"
+}

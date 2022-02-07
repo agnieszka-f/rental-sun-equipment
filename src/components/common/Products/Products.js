@@ -25,10 +25,11 @@ const Component = ({className, children}) => {
   const classes = useStyles(); 
 
   const [products] = React.useState(JSON.parse(localStorage.getItem('equipments')));
-  const [cart, setCart] = React.useState([]);
+  const [cart, setCart] = React.useState(JSON.parse(localStorage.getItem('cart'))!==null ? JSON.parse(localStorage.getItem('equipments')) : []);
 
   const rentProduct = (id) =>{
-    setCart([...cart, id]);
+    setCart([...cart, id]); 
+    localStorage.setItem('cart',JSON.stringify([...cart, id]));
   };
 
   return(
