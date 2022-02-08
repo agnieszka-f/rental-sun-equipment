@@ -106,6 +106,11 @@ const Component = ({fetchFromApi, status, equipments}) =>{
     getResult();
   }, [fetchFromApi]);
 
+  React.useEffect(()=>{
+    const eq = JSON.parse(localStorage.getItem('equipments'));
+    localStorage.setItem('equipments',JSON.stringify(eq && eq.length > 0 ? eq:(equipments && equipments.length > 0 ? equipments : [])));
+  });
+
   return ( 
     <div className={classes.root}>
       { status === 'Zaloguj jako' || !status ? 

@@ -8,17 +8,13 @@ import Select from '@material-ui/core/Select';
 import {NoPermission} from '../NoPermission/NoPermission';
 import { connect } from 'react-redux';
 import { getStatus } from '../../../redux/statusUsersRedux.js';
-import {getEquipments } from '../../../redux/equipmentsRedux.js';
 import {Link} from 'react-router-dom';
 
-const Component = ({status, equipments}) => { 
+const Component = ({status}) => { 
 
   const classes = useStyles();
- 
-  React.useEffect(()=>{
-    const eq = JSON.parse(localStorage.getItem('equipments'));
-    localStorage.setItem('equipments',JSON.stringify(eq && eq.length > 0 ? eq:(equipments && equipments.length > 0 ? equipments : [])));
-  });
+
+  const [equipments] = React.useState(JSON.parse(localStorage.getItem('equipments')));
 
   const [fields, setFields] = React.useState({});
   const [option, setOption] = React.useState('typ');
@@ -29,8 +25,7 @@ const Component = ({status, equipments}) => {
   const handleChangeOption = (event) => {
     setOption(event.target.value);
   };
-  const handleSubmit = (e) => {  
-    //e.preventDefault();
+  const handleSubmit = () => {  
     localStorage.setItem('equipments',JSON.stringify([...equipments, {id: equipments.length + 1, ...fields}]));
   };
   return(
@@ -84,14 +79,9 @@ Component.propTypes = {
 
 const mapStateToProps = state => ({
   status: getStatus(state),
-  equipments: getEquipments(state),
 });
 
-// const mapDispatchToProps = dispatch => ({
-//   someAction: arg => dispatch(reduxActionCreator(arg)),
-// });
-
-const Container = connect(mapStateToProps/*, mapDispatchToProps*/)(Component);
+const Container = connect(mapStateToProps)(Component);
 
 export {
   //Component as AddQuipment,

@@ -5,6 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import {RentConfirmItem} from '../../common/RentConfirmItem/RentConfirmItem';
 import Button from '@material-ui/core/Button';
+import {Link} from 'react-router-dom';
 // import { connect } from 'react-redux';
 // import { reduxSelector, reduxActionCreator } from '../../../redux/exampleRedux.js';
 
@@ -34,31 +35,59 @@ const useStyles = makeStyles((theme) => ({
 
 const Component = () => { 
   const classes = useStyles();
-  
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const calculateTotalSum = () =>{
+    return JSON.parse(localStorage.getItem('cart'))!==null ? JSON.parse(localStorage.getItem('cart')).reduce((prev, curr) =>(prev + parseInt(curr.rentAmount)*parseFloat(curr.price)),0) : 0;
+  };
+
   const [cart, setCart] = React.useState(JSON.parse(localStorage.getItem('cart'))!==null ? JSON.parse(localStorage.getItem('cart')) : []);
+
   const [arrHidden, setArrHidden] = React.useState(JSON.parse(localStorage.getItem('arrHidden'))!==null ? JSON.parse(localStorage.getItem('arrHidden')) : []);
+
+  const [totalSum, setTotalSum] = React.useState(calculateTotalSum());
 
   const handleDeleteItem = (id) => { 
     setCart(cart.filter( item => item.id !== id)); 
     setArrHidden(arrHidden.filter( item => item !== id)); 
+    setTotalSum(calculateTotalSum());
   };
   
   React.useEffect(()=>localStorage.setItem('cart',JSON.stringify(cart)), [cart]);
   React.useEffect(()=>localStorage.setItem('arrHidden',JSON.stringify(arrHidden)), [arrHidden]);
+  React.useEffect(()=>setTotalSum(calculateTotalSum()),[calculateTotalSum]);
+ 
+  const changeItem = (id, amount) =>{
+    setCart(cart.map(cartItem => cartItem.id === id ? {...cartItem, rentAmount:amount}:cartItem));
+    setTotalSum(calculateTotalSum());
+  };
+
+  const handleConfirm = () => {
+    const res = JSON.parse(localStorage.getItem('equipments')).map(product =>{
+      let find = cart.find(cartItem => cartItem.id === product.id); 
+      return find ? {...product, amount: product.amount-find.rentAmount} : product;
+    });
+    localStorage.setItem('equipments',JSON.stringify(res));
+  };
+  
+  const handleCancel = () =>{
+    localStorage.setItem('cart',JSON.stringify([]));
+    localStorage.setItem('arrHidden',JSON.stringify([]));
+  };
 
   return(
     cart && cart.length > 0 ? 
       <Grid className={classes.root} container >
         <Typography variant="h6">Zamówione produkty</Typography>
         {
-          cart.map( item => <RentConfirmItem key={item.id} item={item} deleteItem={handleDeleteItem}/>)
+          cart.map( item => <RentConfirmItem key={item.id} item={item} deleteItem={handleDeleteItem} changeItem={changeItem}/>)
         }
         <Grid item container justify="flex-end">
           <Grid item container justify="flex-end" className={classes.confirm}>
-           Całkowity koszt wypożyczenia: 800 zł
+           Całkowity koszt wypożyczenia: {totalSum} zł
           </Grid>
-          <Button className={classes.buttonSubmit} variant="contained" color="primary" type='submit' fullWidth>Zatwierdź</Button>
-          <Button className={classes.buttonSubmit} variant="contained" color="primary" type='submit' fullWidth>Anuluj</Button>
+          <Button className={classes.buttonSubmit} onClick={()=>handleConfirm()} variant="contained" color="primary" type='submit' fullWidth component={Link} to={'/'}>Zatwierdź</Button>
+          <Button className={classes.buttonSubmit} onClick={()=>handleCancel()} variant="contained" color="primary" type='submit' fullWidth component={Link} to={'/'}>Anuluj</Button>
         </Grid>
       </Grid>
       : <Typography variant="h2">Nie wybrałeś żadnych produktów</Typography>

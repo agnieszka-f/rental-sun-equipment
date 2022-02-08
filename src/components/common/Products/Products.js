@@ -30,10 +30,11 @@ const Component = ({className, children}) => {
 
   const [cart, setCart] = React.useState(JSON.parse(localStorage.getItem('cart'))!==null ? JSON.parse(localStorage.getItem('cart')) : []);
 
-  const rentProduct = (id) =>{
-    setCart([...cart, id]); 
-    localStorage.setItem('cart',JSON.stringify([...cart, id]));
+  const rentProduct = (product) =>{
+    setCart([...cart, {...product, rentAmount: 1}]); 
   };
+  
+  React.useEffect(() => localStorage.setItem('cart',JSON.stringify(cart)), [cart]);
 
   return(
     <div>

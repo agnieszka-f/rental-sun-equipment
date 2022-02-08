@@ -7,15 +7,12 @@ import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import DeleteIcon from '@material-ui/icons/Delete';
-// import { connect } from 'react-redux';
-// import { reduxSelector, reduxActionCreator } from '../../../redux/exampleRedux.js';
 
 const useStyles = makeStyles((theme) => ({
   container:{
     background: 'beige',
     width: '100%',
     height: '100%',
-    //borderBottom: '1px solid #ffc107',
     padding: theme.spacing(2),
     margin: '4px 0',
     boxShadow: '1px 1px silver',
@@ -47,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Component = ({item, deleteItem}) => { 
+const Component = ({item, deleteItem, changeItem}) => { 
   const classes = useStyles();
   
   const [value,setValue] = React.useState(1);
@@ -64,6 +61,8 @@ const Component = ({item, deleteItem}) => {
     const newValue = parseInt(e.target.value);
     if(newValue > 1 && newValue < item.amount) setValue(newValue);
   };
+
+  React.useEffect(()=>changeItem(item.id, parseInt(value)), [value]);
   
   return(
     <Grid item container justify="space-between" alignItems="center" className={classes.container}>
@@ -81,7 +80,7 @@ const Component = ({item, deleteItem}) => {
       </Grid>
       <Grid item justify="center" alignItems="center" xs={3} direction="column" container>
         <Typography className={classes.fontItem}>Wartość</Typography>
-        <Typography className={classes.fontItem}>200 zł</Typography>
+        <Typography className={classes.fontItem}>{parseFloat(item.price) * parseInt(value)} zł</Typography>
       </Grid>
       <Grid item xs={1} justify="flex-end" alignItems="center" container>
         <IconButton className={classes.button} onClick={() => deleteItem(item.id)}><DeleteIcon /></IconButton>
@@ -94,20 +93,10 @@ Component.propTypes = {
   className: PropTypes.string,
   item: PropTypes.object,
   deleteItem: PropTypes.func,
+  changeItem: PropTypes.func,
 };
-
-// const mapStateToProps = state => ({
-//   someProp: reduxSelector(state),
-// });
-
-// const mapDispatchToProps = dispatch => ({
-//   someAction: arg => dispatch(reduxActionCreator(arg)),
-// });
-
-// const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
 
 export {
   Component as RentConfirmItem,
-  // Container as RentConfirmItem,
   Component as RentConfirmItemComponent,
 };
