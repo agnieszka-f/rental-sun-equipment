@@ -5,11 +5,12 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { initialState } from './initialState';
 import { reducer as statusUsersReducer } from './statusUsersRedux';
 import { reducer as equipmentsReducer } from './equipmentsRedux';
-
+import { reducer as usersReducer } from './usersRedux';
 // define reducers
 const reducers = {
   statusUsers: statusUsersReducer,
   equipments: equipmentsReducer,
+  users: usersReducer,
 };
 
 // add blank reducers for initial state properties without reducers

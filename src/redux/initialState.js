@@ -5,4 +5,7 @@ export const initialState = {
   equipments:{
     data:  JSON.parse(localStorage.getItem('equipments')) !== null ?  JSON.parse(localStorage.getItem('equipments')) : {},
   },
+  users:{
+    data:  JSON.parse(localStorage.getItem('users')) !== null ?  JSON.parse(localStorage.getItem('users')) : {},
+  },
 };

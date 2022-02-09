@@ -23,6 +23,12 @@ export const useStyles = makeStyles((theme) => ({
       background: 'yellow',
     },
   },
+  error:{
+    color:'red',
+  },
+  none:{
+    display:'none',
+  },
 }));
   
 export const StyledTextField = withStyles((theme) => ({

@@ -14,6 +14,7 @@ import {Link} from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getStatus } from '../../../redux/statusUsersRedux.js';
 import { fetchFromApi, getEquipments } from '../../../redux/equipmentsRedux.js';
+import { fetchUsersFromApi, getUsers } from '../../../redux/usersRedux.js';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -96,7 +97,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Component = ({fetchFromApi, status, equipments}) =>{ 
+const Component = ({fetchFromApi, status, equipments, fetchUsersFromApi, users}) =>{ 
   const classes = useStyles();
   
   React.useEffect(() => {
@@ -106,9 +107,21 @@ const Component = ({fetchFromApi, status, equipments}) =>{
     getResult();
   }, [fetchFromApi]);
 
+  React.useEffect(() => {
+    const getResult = async () =>{
+      await fetchUsersFromApi();
+    };
+    getResult();
+  }, [fetchUsersFromApi]);
+
   React.useEffect(()=>{
     const eq = JSON.parse(localStorage.getItem('equipments'));
     localStorage.setItem('equipments',JSON.stringify(eq && eq.length > 0 ? eq:(equipments && equipments.length > 0 ? equipments : [])));
+  });
+
+  React.useEffect(()=>{
+    const us = JSON.parse(localStorage.getItem('users'));
+    localStorage.setItem('users',JSON.stringify(us && us.length > 0 ? us:(users && users.length > 0 ? users : [])));
   });
   
   const [isLender] = React.useState(JSON.parse(localStorage.getItem('rents'))!==null ? JSON.parse(localStorage.getItem('rents')).find(rent => rent.lender === status):false);
@@ -152,16 +165,20 @@ Component.propTypes = {
   className: PropTypes.string,
   status:PropTypes.string,
   fetchFromApi: PropTypes.func,
+  fetchUsersFromApi: PropTypes.func,
   equipments: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  users: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
 };
 
 const mapStateToProps = state => ({
   status: getStatus(state),
   equipments: getEquipments(state),
+  users: getUsers(state),
 });
 
 const mapDispatchToProps = dispatch => ({
   fetchFromApi: () => dispatch(fetchFromApi()),
+  fetchUsersFromApi: () => dispatch(fetchUsersFromApi()),
 });
 
 const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
