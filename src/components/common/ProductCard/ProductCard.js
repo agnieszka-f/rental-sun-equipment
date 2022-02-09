@@ -59,7 +59,7 @@ const Component = ({product, rentProduct}) => {
           <Box my={3}> 
             <Typography variant="subtitle2">{product.price} zł/dzień</Typography>
           </Box>  
-          <Button className={classes.buttonSubmit} onClick={()=>handleRentProduct(product)} disabled={arrHidden.includes(product.id)} variant="contained" color="primary" fullWidth>Wybierz</Button> 
+          <Button className={classes.buttonSubmit} onClick={()=>handleRentProduct(product)} disabled={arrHidden.includes(product.id) || product.amount === 0} variant="contained" color="primary" fullWidth>Wybierz</Button> 
           <Box mt={2}> 
             <Typography variant="caption">Dostępna ilość: {product.amount}</Typography>
           </Box>           

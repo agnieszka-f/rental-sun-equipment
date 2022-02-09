@@ -110,6 +110,8 @@ const Component = ({fetchFromApi, status, equipments}) =>{
     const eq = JSON.parse(localStorage.getItem('equipments'));
     localStorage.setItem('equipments',JSON.stringify(eq && eq.length > 0 ? eq:(equipments && equipments.length > 0 ? equipments : [])));
   });
+  
+  const [isLender] = React.useState(JSON.parse(localStorage.getItem('rents'))!==null ? JSON.parse(localStorage.getItem('rents')).find(rent => rent.lender === status):false);
 
   return ( 
     <div className={classes.root}>
@@ -128,12 +130,12 @@ const Component = ({fetchFromApi, status, equipments}) =>{
           <Box className={`${classes.icon} + ${classes.iconPink}`}><PlaylistAddIcon /></Box>
               Nowy sprzet
         </Paper> : '' }
-      { status && status === 'user' ?
+      { status && status !== 'admin' && status!=='Zaloguj jako'?
         <Paper className={`${classes.item} + ${classes.green}`} component={Link} to={'/rent'}>
           <Box className={`${classes.icon} + ${classes.iconGreen}`}><VerticalAlignBottomIcon /></Box>
               Wypożycz sprzęt
         </Paper> : '' }
-      { status && status === 'user' ?
+      { status && status !== 'admin' && status!=='Zaloguj jako' && isLender ?
         <Paper className={`${classes.item} + ${classes.blue}`} component={Link} to={'/return'}>
           <Box className={`${classes.icon} + ${classes.iconBlue}`}><VerticalAlignTopIcon /></Box>
               Zwróć sprzęt

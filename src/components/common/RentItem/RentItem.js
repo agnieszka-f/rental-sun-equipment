@@ -5,9 +5,6 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
-// import { connect } from 'react-redux';
-// import { reduxSelector, reduxActionCreator } from '../../../redux/exampleRedux.js';
-
 const useStyles = makeStyles((theme) => ({
   container:{
     background: 'beige',
@@ -23,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
     width: 80,
     overflow: 'hidden',
     objectFit: 'cover',
+    marginBottom: theme.spacing(1),
   },
   fontItem:{
     fontSize: '0.8rem',
@@ -37,24 +35,32 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Component = ({item}) => { 
+const Component = ({item,date,removeFromCart,rentId}) => { 
   const classes = useStyles();
+  
+  const [disabled, setDisabled] = React.useState(false);
+
+  const handleClick = () =>{
+    removeFromCart(item.id, rentId, item.rentAmount);
+    setDisabled(true);
+  };
 
   return(
     <Grid item container justify="space-between" alignItems="center" className={classes.container}>
-      <Grid item xs={2}  alignItems="center" container>
+      <Grid item xs={4}  alignItems="center" container>
         <img src={item.photo} alt={item.name} className={classes.img}></img>
+        <Typography variant='caption'>{'Data wypożyczenia: ' + new Date(date).toLocaleDateString('pl-PL') + ' ' + new Date(date).toLocaleTimeString('pl-PL')}</Typography>
       </Grid>
       <Grid item xs={3}  justify="center" alignItems="center" direction="column" container>
         <Typography className={classes.fontItem}>{item.name}</Typography>
         <Typography className={classes.fontItem}>{item.price} zł/dzień</Typography>
       </Grid>
-      <Grid item justify="center" alignItems="center" xs={4} direction="column" container>
+      <Grid item justify="center" alignItems="center" xs={3} direction="column" container>
         <Typography className={classes.fontItem}>Wartość</Typography>
-        <Typography className={classes.fontItem}>200 zł</Typography>
+        <Typography className={classes.fontItem}>{item.price * item.rentAmount} zł</Typography>
       </Grid>
-      <Grid item xs={3} justify="flex-end" alignItems="center" container>
-        <Button className={classes.buttonReturn} variant="contained" color="primary" type='submit' fullWidth>Zwrot</Button>
+      <Grid item xs={2} justify="flex-end" alignItems="center" container>
+        <Button className={classes.buttonReturn} disabled={disabled} onClick={()=>handleClick()} variant="contained" color="primary" type='submit' fullWidth>Zwrot</Button>
       </Grid>
     </Grid>
   );
@@ -63,6 +69,9 @@ Component.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
   item: PropTypes.object,
+  date:PropTypes.string,
+  removeFromCart: PropTypes.func,
+  rentId: PropTypes.number,
 };
 
 

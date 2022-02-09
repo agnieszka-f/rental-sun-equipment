@@ -6,8 +6,8 @@ import Typography from '@material-ui/core/Typography';
 import {RentConfirmItem} from '../../common/RentConfirmItem/RentConfirmItem';
 import Button from '@material-ui/core/Button';
 import {Link} from 'react-router-dom';
-// import { connect } from 'react-redux';
-// import { reduxSelector, reduxActionCreator } from '../../../redux/exampleRedux.js';
+import { getStatus } from '../../../redux/statusUsersRedux.js';
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   root:{
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Component = () => { 
+const Component = ({status}) => { 
   const classes = useStyles();
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -47,6 +47,8 @@ const Component = () => {
 
   const [totalSum, setTotalSum] = React.useState(calculateTotalSum());
 
+  const [rents] = React.useState(JSON.parse(localStorage.getItem('rents'))!==null ? JSON.parse(localStorage.getItem('rents')) : []);
+
   const handleDeleteItem = (id) => { 
     setCart(cart.filter( item => item.id !== id)); 
     setArrHidden(arrHidden.filter( item => item !== id)); 
@@ -56,10 +58,16 @@ const Component = () => {
   React.useEffect(()=>localStorage.setItem('cart',JSON.stringify(cart)), [cart]);
   React.useEffect(()=>localStorage.setItem('arrHidden',JSON.stringify(arrHidden)), [arrHidden]);
   React.useEffect(()=>setTotalSum(calculateTotalSum()),[calculateTotalSum]);
- 
+
   const changeItem = (id, amount) =>{
     setCart(cart.map(cartItem => cartItem.id === id ? {...cartItem, rentAmount:amount}:cartItem));
     setTotalSum(calculateTotalSum());
+  };
+  
+  const handleSaveRent = () =>{
+    const lender = status; 
+    const rent = {id: Date.now(), rentDate: new Date(Date.now()), lender, cart}; 
+    localStorage.setItem('rents',JSON.stringify([...rents, rent]));
   };
 
   const handleConfirm = () => {
@@ -67,10 +75,12 @@ const Component = () => {
       let find = cart.find(cartItem => cartItem.id === product.id); 
       return find ? {...product, amount: product.amount-find.rentAmount} : product;
     });
-    localStorage.setItem('equipments',JSON.stringify(res));
+    localStorage.setItem('equipments',JSON.stringify(res)); 
+    handleSaveRent();
+    handleDelete();
   };
   
-  const handleCancel = () =>{
+  const handleDelete = () =>{
     localStorage.setItem('cart',JSON.stringify([]));
     localStorage.setItem('arrHidden',JSON.stringify([]));
   };
@@ -87,7 +97,7 @@ const Component = () => {
            Całkowity koszt wypożyczenia: {totalSum} zł
           </Grid>
           <Button className={classes.buttonSubmit} onClick={()=>handleConfirm()} variant="contained" color="primary" type='submit' fullWidth component={Link} to={'/'}>Zatwierdź</Button>
-          <Button className={classes.buttonSubmit} onClick={()=>handleCancel()} variant="contained" color="primary" type='submit' fullWidth component={Link} to={'/'}>Anuluj</Button>
+          <Button className={classes.buttonSubmit} onClick={()=>handleDelete()} variant="contained" color="primary" type='submit' fullWidth component={Link} to={'/'}>Anuluj</Button>
         </Grid>
       </Grid>
       : <Typography variant="h2">Nie wybrałeś żadnych produktów</Typography>
@@ -96,20 +106,20 @@ const Component = () => {
 Component.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
+  status: PropTypes.string,
 };
 
-// const mapStateToProps = state => ({
-//   someProp: reduxSelector(state),
-// });
+const mapStateToProps = state => ({
+  status: getStatus(state),
+});
 
 // const mapDispatchToProps = dispatch => ({
 //   someAction: arg => dispatch(reduxActionCreator(arg)),
 // });
 
-// const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
+const Container = connect(mapStateToProps/*, mapDispatchToProps*/)(Component);
 
 export {
-  Component as RentConfirm,
-  // Container as RentConfirm,
+  Container as RentConfirm,
   Component as RentConfirmComponent,
 };
