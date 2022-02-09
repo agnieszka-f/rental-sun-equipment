@@ -2,5 +2,12 @@
     {"id":1, "type":"towel","name":"Duży ręcznik","photo":"https://pieknesny.pl/userdata/public/gfx/4007/31.jpg","price":20,"amount":50},
     {"id":2, "type":"sunbed","name":"Leżak niebieski","photo":"https://odjazdowemeble.pl/images/odjazdowemeble/0-1000/Lezak-plazowy-ogrodowy_%5B785%5D_1200.jpg","price":40,"amount":10},
     {"id":3, "type":"umbrella","name":"Parasol kolorowy","photo":"https://www.abud.pl/pol_pl_Parasol-plazowy-170-cm-37533_2.jpg","price":15,"amount":80},
-    {"id":4, "type":"screen","name":"Parawan kolorowy","photo":"https://www.wystawienniczesystemy.com.pl/1633-medium_default/parawan.jpg","price":25,"amount":40}
+    {"id":4, "type":"screen","name":"Parawan kolorowy","photo":"https://www.wystawienniczesystemy.com.pl/1633-medium_default/parawan.jpg","price":25,"amount":40},
+    {"id":5, "type":"umbrella","name":"Parasol w paski","photo":"https://static4.redcart.pl/templates/images/thumb/42842/550/550/pl/0/templates/images/products/42842/61d5217f747a1449b78e2aae27add633.jpg","price":15,"amount":30},
+    {"id":6, "type":"umbrella","name":"Parasol zielony","photo":"https://pasaz24.blob.core.windows.net/web3382/productimages/23209801_101569.jpg","price":15,"amount":40},
+    {"id":7, "type":"umbrella","name":"Parasol niebieski","photo":"https://upload.cdn.baselinker.com/products/5539/105626065_1.jpg","price":15,"amount":10},
+    {"id":8, "type":"sunbed","name":"Leżak w paski","photo":"https://polki.pl/foto/1_X_LARGE/lezak-plazowy-do-300-zl-sprawdz-nasz-przeglad-2436430.jpg","price":35,"amount":30},
+    {"id":9, "type":"towel","name":"Lniany ręcznik","photo":"https://www.lnianysklep.pl/wp-content/uploads/2020/07/485-0925-lniany-recznik-kapielowy-w-pasy-biale-i-niebieskie-1100x1100-1.jpg","price":10,"amount":40},
+    {"id":10, "type":"towel","name":"Ręcznik okrągły","photo":"https://static.eurofirany.com.pl/galeria/produkt_ean/medium/5900811915133_1.jpg","price":10,"amount":50}
 ]
+

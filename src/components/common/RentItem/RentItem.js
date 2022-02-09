@@ -74,19 +74,7 @@ Component.propTypes = {
   rentId: PropTypes.number,
 };
 
-
-// const mapStateToProps = state => ({
-//   someProp: reduxSelector(state),
-// });
-
-// const mapDispatchToProps = dispatch => ({
-//   someAction: arg => dispatch(reduxActionCreator(arg)),
-// });
-
-// const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
-
 export {
   Component as RentItem,
-  // Container as RentItem,
   Component as RentItemComponent,
 };

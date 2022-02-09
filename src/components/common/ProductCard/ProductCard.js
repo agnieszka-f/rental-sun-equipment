@@ -13,10 +13,10 @@ import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles((theme) => ({
   card:{
-    width: 200,
+    width: 220,
   },
   media:{
-    height: 150,
+    height: 160,
     overflow: 'hidden',
     objectFit: 'cover',
   },

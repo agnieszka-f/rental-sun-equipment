@@ -72,6 +72,5 @@ Component.propTypes = {
 
 export {
   Component as Weather,
-  // Container as Homepage,
   Component as WeatherComponent,
 };
