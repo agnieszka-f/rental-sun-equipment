@@ -7,6 +7,10 @@ import Button from '@material-ui/core/Button';
 import {Link} from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
+  root:{
+    maxWidth: '80%',
+    margin: '0 auto',
+  },
   buttonSubmit:{
     display:'block',
     textAlign:'center',
@@ -19,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Component = ({className, children}) => { 
+const Component = () => { 
   const classes = useStyles(); 
 
   const [products] = React.useState(JSON.parse(localStorage.getItem('equipments')));
@@ -33,7 +37,7 @@ const Component = ({className, children}) => {
   React.useEffect(() => localStorage.setItem('cart',JSON.stringify(cart)), [cart]);
 
   return(
-    <div>
+    <div className={classes.root}>
       {cart.length > 0 ? <Button className={classes.buttonSubmit} variant="contained" color="primary" fullWidth component={Link} to={'/rent-confirm'}>Podsumowanie</Button> : ''}
       <Grid container spacing={2} justify='center'>
         {

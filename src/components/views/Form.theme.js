@@ -26,6 +26,9 @@ export const useStyles = makeStyles((theme) => ({
   error:{
     color:'red',
   },
+  success:{
+    color: 'green',
+  },
   none:{
     display:'none',
   },

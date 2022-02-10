@@ -55,7 +55,7 @@ const Component = ({status}) => {
   };
   
   return(
-    status === 'user' && rentedEquipment && rentedEquipment.length > 0 ? 
+    status !== 'admin' && status!=='Zaloguj jako' && rentedEquipment && rentedEquipment.length > 0 ? 
       <Grid className={classes.root} container >
         <Typography variant="h6">Wypożyczone produkty</Typography>
         {
@@ -80,7 +80,7 @@ const mapStateToProps = state => ({
   status: getStatus(state),
 });
 
-const Container = connect(mapStateToProps/*, mapDispatchToProps*/)(Component);
+const Container = connect(mapStateToProps)(Component);
 
 export {
   Container as Return,

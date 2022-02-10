@@ -125,7 +125,7 @@ const Component = ({fetchFromApi, status, equipments, fetchUsersFromApi, users})
   });
   
   const [isLender] = React.useState(JSON.parse(localStorage.getItem('rents'))!==null ? JSON.parse(localStorage.getItem('rents')).find(rent => rent.lender === status):false);
-
+  console.log(isLender);
   return ( 
     <div className={classes.root}>
       { status === 'Zaloguj jako' || !status ? 
@@ -148,7 +148,7 @@ const Component = ({fetchFromApi, status, equipments, fetchUsersFromApi, users})
           <Box className={`${classes.icon} + ${classes.iconGreen}`}><VerticalAlignBottomIcon /></Box>
               Wypożycz sprzęt
         </Paper> : '' }
-      { status && status !== 'admin' && status!=='Zaloguj jako' && isLender ?
+      { status && status !== 'admin' && status!=='Zaloguj jako' && isLender && isLender.lender===status ?
         <Paper className={`${classes.item} + ${classes.blue}`} component={Link} to={'/return'}>
           <Box className={`${classes.icon} + ${classes.iconBlue}`}><VerticalAlignTopIcon /></Box>
               Zwróć sprzęt

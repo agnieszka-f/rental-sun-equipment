@@ -62,6 +62,7 @@ const Component = ({item, deleteItem, changeItem}) => {
     if(newValue > 1 && newValue < item.amount) setValue(newValue);
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   React.useEffect(()=>changeItem(item.id, parseInt(value)), [value]);
   
   return(
